@@ -1,0 +1,20 @@
+# README
+# reference: https://www.youtube.com/watch?v=JEBDfGqrAUA
+
+Vector search usage for semantic search of movies.
+MongoDB Atlas: Movie DB, storing embeddings, and search queries.
+HuggingFace: Sentance Transformer Model (all-MiniLM-L6-v2) to create embeddings
+
+
+# git setup
+# git config --global user.name "Vasu Dalal"
+# git config --global user.email vdalal@gmail.com
+
+# python setup
+#.\python -m pip install --upgrade pip
+# Dir: C:\Users\<username>\AppData\Local\Programs\Python\Python312> 
+
+# Install new packages
+# .\python -m pip install pymongo
+# .\python -m pip install requests
+# .\python -m pip install python-dotenv
