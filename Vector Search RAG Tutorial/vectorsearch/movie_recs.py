@@ -6,23 +6,13 @@ from dotenv import load_dotenv
 load_dotenv() # This reads the environment variables inside .env
 
 mongodb_password = os.getenv('MONGODB_PASSWORD')
-# print (mongodb_password)
-
 mongodb_moviedb_uri = "mongodb+srv://vdalal:" + mongodb_password + "@cluster0.ojkrxkw.mongodb.net/?retryWrites=true&w=majority"
-# print (mongodb_moviedb_uri)
 
 client = pymongo.MongoClient(mongodb_moviedb_uri)
 db = client.sample_mflix
 collection = db.movies
 
-# print (collection.find().limit(5))
-# items = collection.find().limit(5)
-
-# for item in items:
-#    print(item)
-
 hf_token = os.getenv('HF_TOKEN')
-# print (hf_token)
 embedding_url = "https://api-inference.huggingface.co/pipeline/feature-extraction/sentence-transformers/all-MiniLM-L6-v2"
 
 def generate_embedding(text: str) -> list[float]:
@@ -38,13 +28,15 @@ def generate_embedding(text: str) -> list[float]:
 
 # print(generate_embedding("The Matrix"))
 
-for doc in collection.find({'plot': {'$exists': True}}).limit(1150):
+for doc in collection.find({'plot': {'$exists': True}}).limit(2150):
     if doc.get('plot_embedding_hf') is None:
         doc['plot_embedding_hf'] = generate_embedding(doc['plot'])
         collection.replace_one({'_id': doc['_id']}, doc)
 
 query = "imaginary characters from outer space at war"
-# query = "spy movies with lots of action for kids"
+# query = "a secret agent movie with action and intrigue which is suitable for kids"
+# query = "a movie about the secret service protecting the US President"
+# query = "psychopath killer with lots of action and adventure"
 
 results = collection.aggregate([
     {"$vectorSearch": {
