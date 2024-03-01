@@ -1,5 +1,7 @@
 # README
 # reference: https://www.youtube.com/watch?v=JEBDfGqrAUA
+# reference: https://github.com/beaucarnes/vector-search-tutorial/tree/main
+
 
 Vector search usage for semantic search of movies.
 MongoDB Atlas: Movie DB, storing embeddings, and search queries.
