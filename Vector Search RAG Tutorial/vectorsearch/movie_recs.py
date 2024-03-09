@@ -26,18 +26,16 @@ def generate_embedding(text: str) -> list[float]:
     
     return response.json()
 
-# print(generate_embedding("The Matrix"))
 def generate_all_movie_embeddings(lim: int):
-    cnt = collection.count_documents({'plot': {'$exists': True}})
-    print("Count of documents with plot summary = " + str(cnt))
+    # cnt = collection.count_documents({'plot': {'$exists': True}})
+    # print("Count of documents with plot summary = " + str(cnt))
     
     for doc in collection.find({'plot': {'$exists': True}}).limit(lim):
         if doc.get('plot_embedding_hf') is None:
             doc['plot_embedding_hf'] = generate_embedding(doc['plot'])
             collection.replace_one({'_id': doc['_id']}, doc)
 
-
-generate_all_movie_embeddings(7400)
+generate_all_movie_embeddings(8600)
 
 query = "imaginary characters from outer space at war"
 # query = "a secret agent movie with action and intrigue which is suitable for kids"
@@ -48,7 +46,7 @@ results = collection.aggregate([
      "queryVector": generate_embedding(query),
      "path": "plot_embedding_hf",
      "numCandidates": 100,
-     "limit": 4,
+     "limit": 6,
      "index": "PlotSemanticSearch",
     }}
 ]);
